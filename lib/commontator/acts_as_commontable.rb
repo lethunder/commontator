@@ -24,7 +24,9 @@ module Commontator::ActsAsCommontable
         prepend Commontator::BuildThread
 
         # Support creating acts_as_commontable records without a commontator_thread when migrating
-        validates :commontator_thread, presence: true, if: -> { Commontator::Thread.table_exists? }
+        unless self.name == "ActiveStorage::Attachment"
+          validates :commontator_thread, presence: true, if: -> { Commontator::Thread.table_exists? }
+        end
 
         self.is_commontable = true
       end
